@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Xcode.SourceCodeLanguage.NewtonScript</key>
+	<dict>
+		<key>commentSyntax</key>
+		<array>
+			<dict>
+				<key>prefix</key>
+				<string>/*</string>
+				<key>suffix</key>
+				<string>*/</string>
+			</dict>
+			<dict>
+				<key>prefix</key>
+				<string>//</string>
+			</dict>
+		</array>
+		<key>conformsTo</key>
+		<array>
+			<dict>
+				<key>identifier</key>
+				<string>Xcode.SourceCodeLanguage.Generic</string>
+			</dict>
+		</array>
+		<key>documentationAbbreviation</key>
+		<string>ns</string>
+		<key>fileDataType</key>
+		<array>
+			<dict>
+				<key>identifier</key>
+				<string>com.newton.script</string>
+			</dict>
+		</array>
+		<key>id</key>
+		<string>Xcode.SourceCodeLanguage.NewtonScript</string>
+		<key>languageSpecification</key>
+		<string>xcode.lang.newtonscript</string>
+		<key>languageName</key>
+		<string>NewtonScript</string>
+		<key>name</key>
+		<string>NewtonScript Language</string>
+		<key>point</key>
+		<string>Xcode.SourceCodeLanguage</string>
+		<key>version</key>
+		<string>1.0</string>
+	</dict>
+</dict>
+</plist>

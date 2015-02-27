@@ -1,0 +1,289 @@
+// NewtonScript
+(
+
+/****************************************************************************/
+// MARK: NewtonScript Keywords
+/****************************************************************************/
+
+	{
+		Identifier = "xcode.lang.newtonscript.identifier";
+		Syntax = {
+			StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+			CaseSensitive = NO;
+			Words = (
+				"and",
+				"begin",
+				"break",
+				"by",
+				"call",
+				"constant",
+				"deeply",
+				"div",
+				"do",
+				"else",
+				"end",
+				"exists",
+				"for",
+				"foreach",
+				"func",
+				"global",
+				"if",
+				"in",
+				"inherited",
+				"local",
+				"loop",
+				"mod",
+				"native",
+				"nil",
+				"not",
+				"onexception",
+				"or",
+				"repeat",
+				"return",
+				"self",
+				"then",
+				"to",
+				"true",
+				"try",
+				"until",
+				"while",
+				"with",
+			);
+			Type = "xcode.syntax.keyword";
+			AltType = "xcode.syntax.identifier";    // non-keywords are identifiers
+		};
+	},
+
+/****************************************************************************/
+// MARK: NewtonScript Coloring
+/****************************************************************************/
+
+	{
+		Identifier = "xcode.lang.newtonscript";
+		Description = "NewtonScript Coloring";
+		BasedOn = "xcode.lang.simpleColoring";
+		IncludeInMenu = YES;
+		Name = "NewtonScript";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			IncludeRules = (
+				"xcode.lang.newtonscript.function",
+				"xcode.lang.newtonscript.function.closure",
+				"xcode.lang.newtonscript.block",
+				"xcode.lang.newtonscript.frame",
+				"xcode.lang.newtonscript.bracketexpr",
+				"xcode.lang.newtonscript.parenexpr",
+			);
+			Type = "xcode.syntax.plain";
+		};
+	},
+
+	// The following rule returns tokens to the other rules
+	{
+		Identifier = "xcode.lang.newtonscript.lexer";
+		Syntax = {
+			IncludeRules = (
+				"xcode.lang.comment",
+				"xcode.lang.comment.singleline",
+				"xcode.lang.string",
+				"xcode.lang.newtonscript.character",
+				"xcode.lang.newtonscript.identifier",
+				"xcode.lang.newtonscript.symbol",
+				"xcode.lang.completionplaceholder",
+				"xcode.lang.number",
+				"xcode.lang.newtonscript.interestingOperators",
+			);
+		};
+	},
+
+	{
+		Identifier = "xcode.lang.newtonscript.character";
+		Syntax = {
+			StartChars = "$";
+			Match = ( "^\\$([^\\\\]|\\\\([\\\\nt]|[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}))" );
+			Type = "xcode.syntax.character";
+		};
+	},
+	{
+		Identifier = "xcode.lang.newtonscript.symbol";
+		Syntax = {
+			StartChars = "'";
+			Match = ( "^\\'(([A-Za-z_][0-9A-Za-z_]*)|(\\|[\\x20-\\x2E\\x30-\\x7B\\x7D-\\x7E]+\\|))" );
+			Type = "xcode.syntax.identifier";
+		};
+	},
+
+
+/****************************************************************************/
+// MARK: Functions
+/****************************************************************************/
+    
+	{
+		Identifier = "xcode.lang.newtonscript.function.closure";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			Rules = (
+				"xcode.lang.newtonscript.function.closure.declarator",
+				"xcode.lang.newtonscript.block",
+			);
+			Type = "xcode.syntax.definition.function";
+		};
+	},
+	{
+		Identifier = "xcode.lang.newtonscript.function.closure.declarator";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			Rules = (
+				"xcode.lang.javascript.function.name",
+				":=",
+				"func",
+				"native?",
+				"xcode.lang.newtonscript.parenexpr",
+			);
+			Type = "xcode.syntax.name.partial";
+		};
+	},
+	{
+		Identifier = "xcode.lang.newtonscript.function";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			Rules = (
+				"xcode.lang.newtonscript.function.declarator",
+				"xcode.lang.newtonscript.block",
+			);
+			Type = "xcode.syntax.definition.function";
+		};
+	},
+	{
+		Identifier = "xcode.lang.newtonscript.function.declarator";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			Rules = (
+				"func",
+				"native?",
+				"xcode.lang.newtonscript.parenexpr",
+			);
+			Type = "xcode.syntax.name.partial";
+		};
+	},
+	{
+		Identifier = "xcode.lang.newtonscript.function.name";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			Rules = (
+				"xcode.lang.newtonscript.identifier",
+				"xcode.lang.newtonscript.function.name.more*",
+			);
+			Type = "xcode.syntax.name.partial";
+		};
+	},
+	{
+		Identifier = "xcode.lang.newtonscript.function.name.more";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			Rules = (
+				".",
+				"xcode.lang.newtonscript.identifier",
+			);
+			Type = "xcode.syntax.name.partial";
+		};
+	},
+
+/****************************************************************************/
+// MARK: Blocks and such
+/****************************************************************************/
+
+	{
+		Identifier = "xcode.lang.newtonscript.expression";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			IncludeRules = (
+				"xcode.lang.newtonscript.function",
+				"xcode.lang.newtonscript.function.closure",
+				"xcode.lang.newtonscript.block",
+				"xcode.lang.newtonscript.frame",
+				"xcode.lang.newtonscript.bracketexpr",
+				"xcode.lang.newtonscript.parenexpr",
+			);
+		};
+	},
+
+	{
+		Identifier = "xcode.lang.newtonscript.block";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			Start = "begin";
+			End = "end";
+			Foldable = YES;
+			Recursive = YES;
+			IncludeRules = (
+				"xcode.lang.newtonscript.function",
+				"xcode.lang.newtonscript.function.closure",
+				"xcode.lang.newtonscript.frame",
+				"xcode.lang.newtonscript.bracketexpr",
+				"xcode.lang.newtonscript.parenexpr",
+			);
+		};
+	},
+
+	{
+		Identifier = "xcode.lang.newtonscript.frame";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			Start = "{";
+			End = "}";
+			Foldable = YES;
+			Recursive = YES;
+			IncludeRules = (
+				"xcode.lang.newtonscript.slot",
+			);
+		};
+	},
+	{
+		Identifier = "xcode.lang.newtonscript.slot";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			Rules = (
+				"xcode.lang.newtonscript.identifier",
+				":",
+				"xcode.lang.newtonscript.expression",
+			);
+		};
+	},
+
+	{
+		Identifier = "xcode.lang.newtonscript.parenexpr";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			Start = "(";
+			End = ")";
+			Recursive = YES;
+			IncludeRules = (
+				"xcode.lang.newtonscript.function",
+				"xcode.lang.newtonscript.function.closure",
+				"xcode.lang.newtonscript.block",
+				"xcode.lang.newtonscript.frame",
+				"xcode.lang.newtonscript.bracketexpr",
+			);
+		};
+	},
+
+	{
+		Identifier = "xcode.lang.newtonscript.bracketexpr";
+		Syntax = {
+			Tokenizer = "xcode.lang.newtonscript.lexer";
+			Start = "[";
+			End = "]";
+			Recursive = YES;
+			IncludeRules = (
+				"xcode.lang.newtonscript.function",
+				"xcode.lang.newtonscript.function.closure",
+				"xcode.lang.newtonscript.block",
+				"xcode.lang.newtonscript.frame",
+				"xcode.lang.newtonscript.parenexpr",
+			);
+		};
+	},
+
+)
